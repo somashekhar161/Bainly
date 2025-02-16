@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - D:/Somsheakar/Projects/COHORT-3/WEB_DEV/WEEK-15/Brainly/mongoDB/data:/data/db
