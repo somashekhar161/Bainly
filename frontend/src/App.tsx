@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// Define the main App component
+
+import Button from "./components/Button";
+import Card from "./components/Card";
+import PlusIcon from "./icons/PlusIcon";
+import ShareIcon from "./icons/ShareIcon";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  // Return a div element with a class name of "h-96 p-1 py-2" and the text "App"
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="">
+      <div className="flex justify-end gap-4 p-2">
+        <Button startIcon={<PlusIcon />} text="Add content" variant="primary" />
+        <Button
+          startIcon={<ShareIcon />}
+          text="Share brain"
+          variant="secondary"
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="flex gap-2">
+        <Card
+          link="https://x.com/worldcoin/status/1891409532787535988"
+          title="about world coin"
+          type="twitter"
+        />
+        <Card
+          link="https://youtu.be/XRazptXFb0c?si=tzv1I4HRAIZQc8RF"
+          title="NMS"
+          type="youtube"
+        />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+// Export the App component as the default export
+export default App;
