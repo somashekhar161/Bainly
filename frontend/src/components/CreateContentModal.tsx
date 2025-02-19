@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import CloseIcon from "../icons/CloseIcon";
 import { cn } from "../lib/utils";
 import Button from "./Button";
+import Input from "./Input";
 
 interface CreateContentModalProps {
   open: boolean;
@@ -62,29 +63,3 @@ function CreateContentModal({ open, onClose }: CreateContentModalProps) {
 }
 
 export default CreateContentModal;
-
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  value?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  label?: string;
-}
-export function Input({
-  value,
-  onChange,
-  className,
-  label,
-  ...props
-}: InputProps) {
-  return (
-    <>
-      <label htmlFor={`input-${label}`}>{label}</label>
-      <input
-        id={`input-${label}`}
-        value={value}
-        onChange={onChange}
-        {...props}
-        className={cn("rounded border p-2", className)}
-      />
-    </>
-  );
-}

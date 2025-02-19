@@ -4,13 +4,22 @@ import { cn } from "../lib/utils";
 interface SidebarItemProps {
   text: string;
   icon: ReactNode;
+  isSidebarExpanded: boolean;
 }
 
-function SidebarItem({ text, icon }: SidebarItemProps) {
+function SidebarItem({ isSidebarExpanded, text, icon }: SidebarItemProps) {
   return (
-    <button className={cn("flex gap-2 px-4 py-2")}>
-      {icon}
-      {text}
+    <button
+      className={cn("flex w-full gap-2 rounded px-4 py-2 hover:bg-purple-200")}
+    >
+      {isSidebarExpanded ? (
+        <>
+          {icon}
+          {text}
+        </>
+      ) : (
+        icon
+      )}
     </button>
   );
 }

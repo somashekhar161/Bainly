@@ -9,9 +9,11 @@ import bcryptjs from "bcryptjs";
 import { MongoError } from "mongodb";
 import { userMiddleware } from "./middleware";
 import { random } from "./utils";
+import cors from "cors";
 
 configDotenv();
 const app = express();
+app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 
 const userSchema = z.object({

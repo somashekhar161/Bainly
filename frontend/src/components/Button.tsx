@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { cn } from "../lib/utils";
 
 const buttonVariants = cva(
-  "flex  items-center justify-center cursor-pointer  active:scale-95 transition-scale duration-200",
+  "flex w-full  items-center justify-center cursor-pointer  active:scale-95 transition-scale duration-200",
   {
     variants: {
       variant: {
