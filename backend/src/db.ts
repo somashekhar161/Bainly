@@ -19,11 +19,19 @@ const UserSchema = new Schema(
 );
 
 export const UserModel = model("User", UserSchema);
-
+enum ContentType {
+  youtube = "youtube",
+  twitter = "twitter",
+}
 const ContentSchema = new Schema(
   {
     title: String,
     link: String,
+    type: {
+      type: String,
+      default: ContentType.youtube,
+      enum: Object.values(ContentType), // Use enum for validation
+    },
     tags: [
       {
         type: mongoose.Types.ObjectId,

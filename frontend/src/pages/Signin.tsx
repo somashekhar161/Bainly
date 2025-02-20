@@ -2,27 +2,47 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { API } from "../api/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { useUserStore } from "../store";
 
 function Signin() {
   const navigate = useNavigate();
+  const [username, setusername] = useState("");
+  const [password, setpassword] = useState("");
+
+  const user = useUserStore((state) => state.username);
+  const addUser = useUserStore((state) => state.addUser);
   const singin = async () => {
     try {
       const res = await API.post("/signin", {
         username: username,
         password: password,
       });
-      if (res.data && res.data.token) {
-        const token: string = res.data.token as string;
-        localStorage.setItem("profile", JSON.stringify({ accessToken: token }));
+
+      if (res.data && res.data.data.token) {
+        const token: string = res.data.data.token as string;
+        localStorage.setItem(
+          "profile",
+          JSON.stringify({
+            username: res.data.data.user.username,
+            accessToken: token,
+          }),
+        );
       }
+      addUser(res.data.data.user.username);
+
       navigate("/dash");
     } catch {
       alert("failed to singin");
     }
   };
-  const [username, setusername] = useState("");
-  const [password, setpassword] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dash");
+    }
+  }, []);
   return (
     <div className="flex h-screen items-center justify-center bg-gray-200">
       <div className="min-w-sm rounded-md bg-white p-2">

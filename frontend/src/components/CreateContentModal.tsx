@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CloseIcon from "../icons/CloseIcon";
 import { cn } from "../lib/utils";
 import Button from "./Button";
 import Input from "./Input";
+import { AUTHENTICATED_API } from "../api/utils";
 
 interface CreateContentModalProps {
   open: boolean;
@@ -11,7 +12,22 @@ interface CreateContentModalProps {
 
 function CreateContentModal({ open, onClose }: CreateContentModalProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const [contentType, setcontentType] = useState<"youtube" | "twitter">(
+    "youtube",
+  );
 
+  const [title, setTitle] = useState<string>("");
+  const [link, setLink] = useState<string>("");
+  async function handleAddContent() {
+    await AUTHENTICATED_API.post("/content", {
+      link: link,
+      type: contentType,
+      title: title,
+      tags: [],
+    });
+
+    onClose();
+  }
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -27,6 +43,7 @@ function CreateContentModal({ open, onClose }: CreateContentModalProps) {
       document.removeEventListener("touchend", handleClickOutside);
     };
   }, [onClose]);
+
   return (
     <div
       className={cn(
@@ -51,11 +68,37 @@ function CreateContentModal({ open, onClose }: CreateContentModalProps) {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <Input label="Title" onChange={(e) => e} placeholder="title" />
-          <Input label="Link" onChange={(e) => e} placeholder="youtube.com" />
+          <Input
+            label="Title"
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="title"
+          />
+          <Input
+            label="Link"
+            onChange={(e) => setLink(e.target.value)}
+            placeholder="youtube.com"
+          />
+          <div className="flex gap-1">
+            <Button
+              content="youtube"
+              onClick={() => setcontentType("youtube")}
+              variant={contentType === "youtube" ? "primary" : "secondary"}
+            />
+            <Button
+              content="twitter"
+              onClick={() => setcontentType("twitter")}
+              variant={contentType === "twitter" ? "primary" : "secondary"}
+            />
+          </div>
         </div>
         <div className="flex justify-center">
-          <Button variant="primary" content="Submit" onClick={() => {}} />
+          <Button
+            variant="primary"
+            content="Submit"
+            onClick={() => {
+              handleAddContent();
+            }}
+          />
         </div>
       </div>
     </div>

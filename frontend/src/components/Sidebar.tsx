@@ -4,10 +4,22 @@ import TwitterIcon from "../icons/TwitterIcon";
 import YoutubeIcon from "../icons/YoutubeIcon";
 import SidebarItem from "./SidebarItem";
 import { cn } from "../lib/utils";
+import { useSearchParams } from "react-router-dom";
 
 export function Sidebar() {
   const [isSidebarExpanded, setisSidebar] = useState(true);
   const toggleSidebar = () => setisSidebar((prev) => !prev);
+
+  const [SearchParams, setSearchParams] = useSearchParams();
+  const typeFilter = SearchParams.get("filters");
+  function handleAddFilter(filter: string) {
+    // searchParams.set("filters", filter);
+
+    setSearchParams((prev) => {
+      prev.set("filters", filter);
+      return prev;
+    });
+  }
   return (
     <div
       className={cn(
@@ -31,13 +43,24 @@ export function Sidebar() {
       >
         <SidebarItem
           isSidebarExpanded={isSidebarExpanded}
-          text="youtube"
+          text="ALL"
+          active={typeFilter === "all"}
           icon={<YoutubeIcon />}
+          onClick={() => handleAddFilter("all")}
+        />
+        <SidebarItem
+          isSidebarExpanded={isSidebarExpanded}
+          text="youtube"
+          active={typeFilter === "youtube"}
+          icon={<YoutubeIcon />}
+          onClick={() => handleAddFilter("youtube")}
         />
         <SidebarItem
           isSidebarExpanded={isSidebarExpanded}
           text="twitter"
           icon={<TwitterIcon />}
+          active={typeFilter === "twitter"}
+          onClick={() => handleAddFilter("twitter")}
         />
       </div>
     </div>
